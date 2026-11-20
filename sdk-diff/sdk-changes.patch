@@ -1,0 +1,69 @@
+diff --git a/Makefile b/Makefile
+index aa858d9..1ac74d4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -94,6 +94,8 @@ CXXFLAGS :=
+ DEFINES := \
+ 	-DSUPPORT_MS_EXTENSIONS \
+ 	-DCONFIG_CPU_BR23 \
++	-DCONFIG_BOARD_BR23_HELLO \
++	-DPC_POWER_ON_CHARGE \
+ 	-DCONFIG_RELEASE_ENABLE \
+ 	-DCONFIG_EQ_SUPPORT_ASYNC \
+ 	-DEQ_CORE_V2 \
+@@ -393,6 +395,7 @@ c_SRC_FILES := \
+ 	apps/soundbox/aec/br23/audio_aec.c \
+ 	apps/soundbox/aec/br23/audio_aec_demo.c \
+ 	apps/soundbox/app_main.c \
++	apps/soundbox/hello_app.c \
+ 	apps/soundbox/board/br23/board_ac6083a/board_ac6083a.c \
+ 	apps/soundbox/board/br23/board_ac6083a/key_table/adkey_table.c \
+ 	apps/soundbox/board/br23/board_ac6083a/key_table/iokey_table.c \
+diff --git a/apps/soundbox/app_main.c b/apps/soundbox/app_main.c
+index f4ce2eb..101c16d 100644
+--- a/apps/soundbox/app_main.c
++++ b/apps/soundbox/app_main.c
+@@ -102,6 +102,8 @@ void app_task_loop()
+ 
+ void app_main()
+ {
++    extern void hello_app_init(void);
++    hello_app_init();
+     log_info("app_main\n");
+ 
+     app_var.start_time = timer_get_ms();
+diff --git a/apps/soundbox/board/br23/board_ac695x_demo/board_ac695x_demo_cfg.h b/apps/soundbox/board/br23/board_ac695x_demo/board_ac695x_demo_cfg.h
+index ee93657..483e469 100644
+--- a/apps/soundbox/board/br23/board_ac695x_demo/board_ac695x_demo_cfg.h
++++ b/apps/soundbox/board/br23/board_ac695x_demo/board_ac695x_demo_cfg.h
+@@ -44,7 +44,7 @@
+ //*********************************************************************************//
+ #define TCFG_UART0_ENABLE					ENABLE_THIS_MOUDLE                     //串口打印模块使能
+ #define TCFG_UART0_RX_PORT					NO_CONFIG_PORT                         //串口接收脚配置（用于打印可以选择NO_CONFIG_PORT）
+-#define TCFG_UART0_TX_PORT  				IO_PORTA_05                            //串口发送脚配置
++#define TCFG_UART0_TX_PORT  				IO_PORTB_04                            //串口发送脚配置
+ #define TCFG_UART0_BAUDRATE  				1000000                                //串口波特率配置
+ 
+ //*********************************************************************************//
+@@ -118,7 +118,7 @@
+ #define     SD_CMD_DECT 	0
+ #define     SD_CLK_DECT  	1
+ #define     SD_IO_DECT 		2
+-#define TCFG_SD0_ENABLE						ENABLE_THIS_MOUDLE
++#define TCFG_SD0_ENABLE						DISABLE_THIS_MOUDLE
+ 
+ #define TCFG_SD0_CPART_ENABLE				DISABLE_THIS_MOUDLE
+ #define TCFG_SD0_DPART_ENABLE				DISABLE_THIS_MOUDLE
+diff --git a/apps/soundbox/task_manager/power_on/power_on.c b/apps/soundbox/task_manager/power_on/power_on.c
+index d474656..3c0d3ff 100644
+--- a/apps/soundbox/task_manager/power_on/power_on.c
++++ b/apps/soundbox/task_manager/power_on/power_on.c
+@@ -67,7 +67,7 @@ static int power_on_init(void)
+ #endif
+ 
+ #if TCFG_APP_BT_EN
+-    app_task_switch_to(APP_BT_TASK);
++    app_task_switch_to(APP_PC_TASK);   /* HELLO: UDISK mode = reflash entry */
+ #else
+ 
+ #if TCFG_USB_APPLE_DOCK_EN //苹果iap协议使用pc模式

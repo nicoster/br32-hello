@@ -1,0 +1,47 @@
+C:\br23\workspace\pinyin-fw\hello-sdk\hello-flash>flash_hello.bat
+============================================================
+Flash HELLO firmware to BR23 internal Flash
+app.bin = locally built AC695N SDK hello world
+No TF card format, no fonts, no index.
+============================================================
+SPI nor flash online.
+Online flash id: eb6014
+Online flash size: 1M
+Online flash uuid: 11 20 04 11 05 08 09 03 B9 00 C2 00 FF FF FF FF
+Erase Falsh Size is 256
+ota.bin: C:/br23/workspace/pinyin-fw/hello-sdk/hello-flash/ota.bin
+--------------------------- OTA UPDATE INFO ---------------------------
+| VM size = 0x2a000
+|        PASS: external flash upgrade(size=0x35be) require minial space size 0x4000
+| support the following ota upgrade:
+| * external flash upgrade
+-----------------------------------------------------------------------
+---------------------------------FLASH INFO----------------------------------
+|  PID : AC695N_soundbox                                                    |
+|  VID : 0.01                                                               |
+|  FLASH_BIN_SIZE : 0xd1000                                                 |
+|  FLASH_NEED_SIZE : 0xff000                                                |
+|  FLASH_REAL_SIZE : 0x100000                                               |
+|  VM_REAL_SIZE : 0x2a000                                                   |
+|  VM_START_ADDR : 0xd2000                                                  |
+|  VM_END_ADDR : 0xfc000                                                    |
+|  BTIF_RESERVED_START : 0xfd000                                            |
+|  BTIF_RESERVED_END : 0xfe000                                              |
+|  LRIF_RESERVED_START : 0xfe000                                            |
+|  LRIF_RESERVED_END : 0xff000                                              |
+|  LAVE_SIZE : 0x22000                                                      |
+|  ENTRY_ADDR : 0x1E00100                                                   |
+|  ERASE MODE : NONE                                                        |
+|  UBOOT VERSION : 2022-07-27 19:38:08,UBOOT-$-@20220728-$9ec2e8d           |
+-----------------------------------------------------------------------------
+ISDdownload
+Start to download ......
+Write sector:209 .208 .
+Write block:12 .11 .10 .9 .8 .7 .6 .5 .4 .3 .2 .1 .0 .
+no license
+Download completed.
+device rebooting...
+[INFO] downloader exited normally.
+Expected log: ERASE MODE : NONE / download complete / rebooting.
+Press any key to continue . . .
+C:\br23\workspace\pinyin-fw\hello-sdk\hello-flash>

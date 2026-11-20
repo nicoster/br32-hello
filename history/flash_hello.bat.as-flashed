@@ -1,0 +1,32 @@
+@echo off
+chcp 936 >nul
+cd /d "%~dp0"
+
+net session >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] Administrator rights required.
+    echo Right-click this file and choose "Run as administrator".
+    pause
+    exit /b 1
+)
+
+echo ============================================================
+echo   Flash HELLO firmware to BR23 internal Flash
+echo   app.bin = locally built AC695N SDK hello world
+echo   No TF card format, no fonts, no index.
+echo ============================================================
+echo.
+
+isd_download.exe -dev br23 -boot 0x12000 -div8 -wait 300 -uboot uboot.boot -app app.bin -res tone.cfg cfg_tool.bin eq_cfg_hw.bin -key key.txt -reboot 2500
+set RC=%ERRORLEVEL%
+
+echo.
+if "%RC%"=="0" goto OK
+echo [ERROR] downloader exited with code %RC%
+goto END
+:OK
+echo [INFO] downloader exited normally.
+echo Expected log: ERASE MODE : NONE / download complete / rebooting.
+:END
+pause
+exit /b %RC%
